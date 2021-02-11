@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const router = express.Router();
 
 router.get('/:memeid', placesControllers.getPlaceById);
-router.get('/:memerid', placesControllers.getPlaceById);
+router.get('/memer/:memerid', placesControllers.getPlaceById);
 router.get('/', placesControllers.getPlaceById);
 
 router.post(

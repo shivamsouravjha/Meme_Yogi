@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/', placesControllers.getPlaceById);
 router.post(
     '/signup',
-    fileUpload.single('memer'),
+    fileUpload.single('Profile_Pic'),
   [
     check('Memer')
       .not()
@@ -20,10 +20,13 @@ router.post(
 router.patch(
     '/:memeid',
     [
-      check('caption').isLength({ min: 5 }),
-      check('Tags')
+      check('Memer')
       .not()
-      .isEmpty()
+      .isEmpty(),
+    check('Email')
+      .normalizeEmail()
+      .isEmail(),
+    check('Password').isLength({ min: 8 })
     ],
     placesControllers.updatePlace
 );
