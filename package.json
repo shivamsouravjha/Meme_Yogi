@@ -1,0 +1,26 @@
+{
+  "name": "meme_yogi",
+  "version": "1.0.0",
+  "description": "Memers United",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shivamsouravjha/Meme_Yogi.git"
+  },
+  "author": "memelord",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shivamsouravjha/Meme_Yogi/issues"
+  },
+  "homepage": "https://github.com/shivamsouravjha/Meme_Yogi#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
