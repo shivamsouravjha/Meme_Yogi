@@ -2,20 +2,23 @@ const express = require('express');
 const { check } = require('express-validator');
 const router = express.Router();
 
-router.get('/:memeid', placesControllers.getPlaceById);
-router.get('/:memerid', placesControllers.getPlaceById);
+router.get('/', placesControllers.getPlaceById);
 router.post(
-    '/',
-    fileUpload.single('meme'),
+    '/signup',
+    fileUpload.single('memer'),
   [
-    check('Caption').isLength({ min: 5 }),
-    check('Tags')
+    check('Memer')
       .not()
-      .isEmpty()
-  ]
+      .isEmpty(),
+    check('email')
+      .normalizeEmail()
+      .isEmail(),
+    check('password').isLength({ min: 8 })
+  ],
+  
 )
 router.patch(
-    '/:pid',
+    '/:memeid',
     [
       check('caption').isLength({ min: 5 }),
       check('Tags')
@@ -26,5 +29,5 @@ router.patch(
 );
 router.delete('/:memeid', placesControllers.deletePlace);
 
-module.exports =router;
+module.exports = router;
 
