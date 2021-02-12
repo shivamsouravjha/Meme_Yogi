@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+
 const schema=  mongoose.Schema;
 const memerschema = new schema({
     Memer: {type :String,required:true },
@@ -10,5 +12,5 @@ const memerschema = new schema({
     Meme: [{type :mongoose.Types.ObjectId,required:true,ref:'Memes'}],
 });
 
-memerschema.plugin(uniquevalidator);
+memerschema.plugin(uniqueValidator);
 module.exports =mongoose.model('Memer',memerschema);

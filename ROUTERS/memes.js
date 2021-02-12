@@ -14,7 +14,7 @@ router.post(
     check('Tags')
       .not()
       .isEmpty()
-  ],
+  ],memescontroller.CreateMEME
   
 )
 router.patch(
@@ -25,9 +25,9 @@ router.patch(
       .not()
       .isEmpty()
     ],
-    placesControllers.updatePlace
+    memescontroller.ChangeMeme
 );
-router.delete('/:memeid', placesControllers.deletePlace);
+router.delete('/:memeid', memescontroller.MEMEBEGONE);
 
 module.exports = router;
 

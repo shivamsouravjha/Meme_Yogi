@@ -1,5 +1,6 @@
+const fs=require('fs');
 const { validationResult } = require('express-validator');
-
+const mongoose = require('mongoose');
 const Erur = require('../MODELS/error');
 const MemerSchema = require('../MODELS/memer-schema');
 
