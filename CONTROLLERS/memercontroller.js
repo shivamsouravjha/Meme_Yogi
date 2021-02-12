@@ -126,7 +126,44 @@ const ChangeMemer = async (req, res, next) => {
       );
     }
   
-    const { Caption, Tags } = req.body;
+    const { Memer,Username, Email,Password,About } = req.body;
+
+    let memerexisted;
+    let usernametaken;
+    try {
+      memerexisted = await MemerSchema.findOne({ Email: Email });
+    } catch (err) {
+      const error = new Erur(
+        'Signing up failed, please try again later.',
+        500
+      );
+      return next(error);
+    }
+      try {
+          usernametaken = await MemerSchema.findOne({Username :Username});
+    } catch (err) {
+      const error = new Erur(
+        'Signing up failed, please try again later.',
+        500
+      );
+      return next(error);
+    }
+  
+    if (memerexisted) {
+      const error = new Erur(
+        'User exists already, please login instead.',
+        422
+      );
+      return next(error);
+    }
+      if (usernametaken) {
+      const error = new Erur(
+        'User exists already, please login instead.',
+        422
+      );
+      return next(error);
+    }
+  
     const memerID = req.params.memerid;
   
     let memer;
@@ -139,11 +176,12 @@ const ChangeMemer = async (req, res, next) => {
       );
       return next(error);
     }
-  
-    memer.Caption = Caption;
-    memer.Tags = Tags;
-    memer.Meme = req.file.path;
-  
+    
+    memer.Username = Username;
+    memer.Email = Email;
+    memer.Password=Password;
+    memer.Display_pic = req.file.path;
+    memer.About=About;
     try {
       await memer.save();
     } catch (err) {
