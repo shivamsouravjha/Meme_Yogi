@@ -18,6 +18,10 @@ const Getmemer = async (req, res, next) => {
   res.json({ memer: memer.map(user => user.toObject({ getters: true })) });
 };
 
+const getPlaceById = async (req, res, next) => {
+  /* insert contents of the function... */
+};
+
 const signup = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -197,3 +201,4 @@ exports.signup = signup;
 exports.login = login;
 exports.ChangeMemer = ChangeMemer;
 exports.MEMERBEGONE = MEMERBEGONE;
+exports.getPlaceById = getPlaceById;

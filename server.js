@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongodb');
 
 const memer = require('./ROUTERS/memer');
 const memes = require('./ROUTERS/memes');

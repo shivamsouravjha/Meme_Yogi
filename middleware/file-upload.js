@@ -25,4 +25,4 @@ const fileUpload = multer({
   }
 });
 
-module.exports = fileUpload;
+exports.fileUpload = fileUpload;
