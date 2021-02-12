@@ -29,7 +29,7 @@
 ---
 
 ## How to Contribute
-- Checkout [CONTRIBUTING.md](CONTRIBUTING.md) file
+- Checkout [Contribution.md](./Contribution.md) file
 
 ---
 ## Feel free to open an issue
