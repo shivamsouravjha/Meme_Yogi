@@ -29,13 +29,13 @@
 ---
 
 ## How to Contribute
-- Checkout [Contribution.md](./Contribution.md) file
+- Checkout [Contribution.md](https://github.com/shivamsouravjha/Meme_Yogi/blob/main/Contribution.md) file
 
 ---
 ## Feel free to open an issue
 - Want a feature 
 - have some errors or bugs
-- App is not functioning in the depicted way
+- Feature not functioning in the depicted way
 - Have any idea to contribute and make this all better
 
 ---
