@@ -1,16 +1,18 @@
 # Contributing
 
-## Code style and structure
-
-* Set the Code Style Scheme to `Default` in Android Studio settings.
-* Run `Reformat Code` on changed files before committing.
-* Please check out the [Code Style for Contributors](https://source.android.com/source/code-style.html) section in AOSP and maintain as much consistency with them as possible.
-
 ## Getting Started
 
 1. Submit an issue describing your proposed change.
 2. Fork the repository on GitHub.
-3. Clone the fork
+3. Clone the fork to your local setup.
+
+## Installing 
+* Open the project using any code editor.
+* Use the following codes to launch:
+```
+$ npm install
+$ npm start
+```
 
 ## Making Changes
 
