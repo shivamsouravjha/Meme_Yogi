@@ -53,6 +53,19 @@ const Memesbymemer = async (req, res, next) => {
 
   res.json({ memes: Memesbymemer.memes.map(memes => memes.toObject({ getters: true })) });
 };
+const Getallmemes = async (req, res, next) => {
+  let meme;
+  try {
+    meme = await Memes.find({}, '-password');
+  } catch (err) {
+    const error = new Erur(
+      'Fetching users failed, please try again later.',
+      500
+    );
+    return next(error);
+  }
+  res.json({ meme: meme.map(meme => meme.toObject({ getters: true })) });
+};
 
 const CreateMEME = async (req, res, next) => {
   const errors = validationResult(req);
@@ -191,3 +204,4 @@ exports.MemesbyID = MemesbyID;
 exports.CreateMEME = CreateMEME;
 exports.ChangeMeme = ChangeMeme;
 exports.MEMEBEGONE = MEMEBEGONE;
+exports.Getallmemes = Getallmemes;

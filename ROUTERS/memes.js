@@ -1,10 +1,10 @@
 const express = require('express');
 const { check } = require('express-validator');
 const router = express.Router();
-
-router.get('/:memeid', placesControllers.getPlaceById);
-router.get('/memer/:memerid', placesControllers.getPlaceById);
-router.get('/', placesControllers.getPlaceById);
+const memescontroller = require('../CONTROLLERS/memescontroller');
+router.get('/:memeid', memescontroller.MemesbyID);
+router.get('/memer/:memerid', memescontroller.Memesbymemer);
+router.get('/', memescontroller.Getallmemes);
 
 router.post(
     '/',
