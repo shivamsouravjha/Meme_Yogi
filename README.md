@@ -39,4 +39,7 @@
 - Have any idea to contribute and make this all better
 
 ---
+## Checkout the Android version of this project here :
+* [Android version Project Link](https://github.com/priyanshnama/Meme-Yogi)
+---
 **All feedbacks and suggestions are welcome!! Everyone can contribute toward this project => fork and open a PR.**
