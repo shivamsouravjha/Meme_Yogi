@@ -56,7 +56,7 @@ const Memesbymemer = async (req, res, next) => {
 const Getallmemes = async (req, res, next) => {
   let meme;
   try {
-    meme = await Memes.find({}, '-password');
+    meme = await Memes.find({});
   } catch (err) {
     const error = new Erur(
       'Fetching users failed, please try again later.',
@@ -165,7 +165,7 @@ const MEMEBEGONE = async (req, res, next) => {
 
   let memetogo;
   try {
-    memetogo = await Memes.findById(memeID).populate('Memer');
+    memetogo = await Memes.findById(memeID).populate('Memes');
   } catch (err) {
     const error = new Erur(
       'Something went wrong, could not delete place.',
@@ -183,8 +183,8 @@ const MEMEBEGONE = async (req, res, next) => {
     const sess = await mongoose.startSession();
     sess.startTransaction();
     await memetogo.remove({session: sess});
-    memetogo.Memer.places.pull(place);
-    await place.Memer.save({session: sess});
+    memetogo.Memer.MemesDB.pull(place);
+    await memetogo.Memer.save({session: sess});
     await sess.commitTransaction();
   } catch (err) {
     const error = new Erur(

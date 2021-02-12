@@ -18,7 +18,7 @@ router.post(
   
 )
 router.patch(
-    '/:memeid',
+    '/:memerid',
     [
       check('Memer')
       .not()

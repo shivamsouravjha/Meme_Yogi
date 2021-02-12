@@ -100,7 +100,7 @@ const login = async (req, res, next) => {
     return next(error);
   }
 
-  if (!memerexisted || memerexisted.password !== password) {
+  if (!memerexisted || memerexisted.Password !== Password) {
     const error = new Erur(
       'Invalid credentials, could not log you in.',
       401
@@ -122,11 +122,11 @@ const ChangeMemer = async (req, res, next) => {
     }
   
     const { Caption, Tags } = req.body;
-    const memeID = req.params.memeid;
+    const memerID = req.params.memerid;
   
-    let meme;
+    let memer;
     try {
-      meme = await Memes.findById(memeID);
+      memer = await MemerSchema.findById(memerID);
     } catch (err) {
       const error = new Erur(
         'Sorry Cannot format the POST',
@@ -135,12 +135,12 @@ const ChangeMemer = async (req, res, next) => {
       return next(error);
     }
   
-    meme.Caption = Caption;
-    meme.Tags = Tags;
-    meme.Meme = req.file.path;
+    memer.Caption = Caption;
+    memer.Tags = Tags;
+    memer.Meme = req.file.path;
   
     try {
-      await meme.save();
+      await memer.save();
     } catch (err) {
       const error = new Erur(
         'Something went wrong, could not update place.',
@@ -149,7 +149,45 @@ const ChangeMemer = async (req, res, next) => {
       return next(error);
     }
   
-    res.status(200).json({ meme: meme.toObject({ getters: true }) });
+    res.status(200).json({ memer: memer.toObject({ getters: true }) });
+  };
+  const MEMERBEGONE = async (req, res, next) => {
+    const memerID = req.params.memerid;
+  
+    let memertogo;
+    try {
+        memertogo = await MemerSchema.findById(memerID).populate('Memer');
+    } catch (err) {
+      const error = new Erur(
+        'Something went wrong, could not delete place.',
+        500
+      );
+      return next(error);
+    }
+  
+    if (!memertogo) {
+      const error = new Erur('Could not find place for this id.', 404);
+      return next(error);
+    }
+    const imagePath = memertogo.Profile_Pic;
+    try {
+      const sess = await mongoose.startSession();
+      sess.startTransaction();
+      await memertogo.remove({session: sess});
+      memertogo.Memer.MemesDB.pull(place);
+      await memertogo.Memer.save({session: sess});
+      await sess.commitTransaction();
+    } catch (err) {
+      const error = new Erur(
+        'Something went wrong, could not delete place.',
+        500
+      );
+      return next(error);
+    }
+    fs.unlink(imagePath,err=>{
+      console.log(err);
+    })
+    res.status(200).json({ message: 'Deleted place.' });
   };
   
 
@@ -157,3 +195,4 @@ exports.Getmemer = Getmemer;
 exports.signup = signup;
 exports.login = login;
 exports.ChangeMemer = ChangeMemer;
+exports.MEMERBEGONE = MEMERBEGONE;
