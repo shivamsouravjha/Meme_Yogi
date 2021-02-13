@@ -10,8 +10,8 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/api/memes', memer); // => /api/places...
-app.use('/api/memers', memes);
+app.use('/api/memers', memer); // => /api/places...
+app.use('/api/memes', memes);
 
 app.use((req, res, next) => {
   const error = new Erur('Could not find this route.', 404);
@@ -28,7 +28,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    `mongodb://shivam:@cluster0-shard-00-00.dm1xw.mongodb.net:27017,cluster0-shard-00-01.dm1xw.mongodb.net:27017,cluster0-shard-00-02.dm1xw.mongodb.net:27017/Meme_Yogi?ssl=true&replicaSet=atlas-x6eag6-shard-0&authSource=admin&retryWrites=true&w=majority`
+    `mongodb://shivam:123456shivam@cluster0-shard-00-00.dm1xw.mongodb.net:27017,cluster0-shard-00-01.dm1xw.mongodb.net:27017,cluster0-shard-00-02.dm1xw.mongodb.net:27017/Meme_Yogi?ssl=true&replicaSet=atlas-x6eag6-shard-0&authSource=admin&retryWrites=true&w=majority`
   )
   .then(() => {
     app.listen(process.env.PORT || 5000);

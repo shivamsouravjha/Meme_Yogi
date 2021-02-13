@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const schema=  mongoose.Schema;
-const MemesSchema = new schema({
-    Caption: {type :String,required:true },
-    Tags: {type :String,required:true },
-    Meme: {type :String,required:true },
-    Memer: {type :mongoose.Types.ObjectId,required:true,ref:'Memer' },
+const memesSchema = new schema({
+    caption: {type :String,required:true },
+    tags: {type :String,required:true },
+    meme: {type :String,required:true },
+    memer: {type :mongoose.Types.ObjectId,required:true,ref:'Memer' },
 });
-module.exports =mongoose.model('Memes',MemesSchema);
+module.exports =mongoose.model('Memes',memesSchema);

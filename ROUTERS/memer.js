@@ -6,18 +6,17 @@ const memercontroller = require('../CONTROLLERS/memercontroller');
 
 const router = express.Router();
 
-router.get('/', memercontroller.getPlaceById);
 router.post(
   '/signup',
-  fileUpload.single('Profile_Pic'),
+//  fileUpload.single('Profile_Pic'),
 [
-  check('Memer')
+  check('memername')
     .not()
     .isEmpty(),
-    check('Username')
+    check('username')
     .not()
     .isEmpty(),
-    check('Email')
+    check('email')
     .normalizeEmail()
     .isEmail(),
   check('password').isLength({ min: 8 })
@@ -26,18 +25,18 @@ memercontroller.signup
 )
 router.post('/login',memercontroller.login)
 router.patch(
-    '/:memerid',  fileUpload.single('Profile_Pic'),
+    '/:memerid',  ///fileUpload.single('Profile_Pic'),
     [
-      check('Memer')
+      check('memername')
       .not()
       .isEmpty(),
-      check('Username')
+      check('username')
       .not()
       .isEmpty(),
-    check('Email')
+    check('email')
       .normalizeEmail()
       .isEmail(),
-    check('Password').isLength({ min: 8 })
+    check('password').isLength({ min: 8 })
     ],
     memercontroller.ChangeMemer
 );
