@@ -203,14 +203,14 @@ const ChangeMemer = async (req, res, next) => {
       const error = new Erur('Could not find memer for this id.', 404);
       return next(error);
     }
-  //  const imagePath = memertogo.Profile_Pic;
+    const imagePath = memertogo.Profile_Pic;
     try {
-    ///  const sess = await mongoose.startSession();
-    ///  sess.startTransaction();
-      await memertogo.remove();///{session: sess});
-     /// memertogo.Memer.MemesDB.pull(place);
-    //  await memertogo.Memer.save({session: sess});
-    ///  await sess.commitTransaction();
+      const sess = await mongoose.startSession();
+      sess.startTransaction();
+      await memertogo.remove({session: sess});
+      memertogo.Memer.MemesDB.pull(place);
+      await memertogo.Memer.save({session: sess});
+      await sess.commitTransaction();
     } catch (err) {
       const error = new Erur(
         'Something went wrong, could not delete memer.',

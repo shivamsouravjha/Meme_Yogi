@@ -179,14 +179,16 @@ const MEMEBEGONE = async (req, res, next) => {
     const error = new Erur('Could not find meme for this id.', 404);
     return next(error);
   }
+  console.log(memetogo);
  /// const imagePath = memetogo.Meme;
   try {
-   /// const sess = await mongoose.startSession();
-   /// sess.startTransaction();
-    await memetogo.remove();
-   /// memetogo.Memer.MemesDB.pull(place);
-   /// await memetogo.Memer.save({session: sess});
-  //  await sess.commitTransaction();
+    const sess = await mongoose.startSession();
+    sess.startTransaction();   
+    await memetogo.remove({session: sess});
+    memetogo.memer.meme.pull(memetogo); 
+    console.log('ssj');
+    await memetogo.memer.save({session: sess});
+    await sess.commitTransaction();
   } catch (err) {
     const error = new Erur(
       'Something went wrong, could not delete meme.',
