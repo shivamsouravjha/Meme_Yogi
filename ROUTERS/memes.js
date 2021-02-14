@@ -1,7 +1,7 @@
 const express = require('express');
 const { check } = require('express-validator');
 const router = express.Router();
-const memescontroller = require('../CONTROLLERS/memescontroller');
+const memescontroller = require('../controllers/memescontroller');
 const { fileUpload } = require('../middleware/file-upload');
 
 router.get('/:memeid', memescontroller.MemesbyID);
@@ -10,20 +10,20 @@ router.get('/', memescontroller.Getallmemes);
 
 router.post(
     '/',
-    fileUpload.single('meme'),
+ ///////////   fileUpload.single('meme'),
   [
-    check('Caption').isLength({ min: 5 }),
-    check('Tags')
+    check('caption').isLength({ min: 5 }),
+    check('tags')
       .not()
       .isEmpty()
-  ],memescontroller.CreateMEME
+  ],memescontroller.createMEME
   
 )
 router.patch(
     '/:memeid',
     [
       check('caption').isLength({ min: 5 }),
-      check('Tags')
+      check('tags')
       .not()
       .isEmpty()
     ],

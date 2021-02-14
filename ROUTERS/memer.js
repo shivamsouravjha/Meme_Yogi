@@ -2,7 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 const { fileUpload } = require('../middleware/file-upload');
 
-const memercontroller = require('../CONTROLLERS/memercontroller');
+const memercontroller = require('../controllers/memercontroller');
 
 const router = express.Router();
 

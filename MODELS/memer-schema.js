@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
-
 const schema=  mongoose.Schema;
 const memerschema = new schema({
     memername: {type :String,required:true },
@@ -9,7 +8,7 @@ const memerschema = new schema({
     password: {type :String,required:true,minlength:8 },
     profile_Pic: {type :String,required:true },
     about:{type :String,require:true },
-    meme: [{type :mongoose.Types.ObjectId,required:true,ref:'Memes'}],
+    meme: {type :String,require:true},
 });
 
 memerschema.plugin(uniqueValidator);
