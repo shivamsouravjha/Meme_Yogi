@@ -1,7 +1,7 @@
 const express = require('express');
 const { check } = require('express-validator');
 const router = express.Router();
-const memescontroller = require('../controllers/memescontroller');
+const memescontroller = require('../CONTROLLERS/memescontroller');
 const { fileUpload } = require('../middleware/file-upload');
 
 router.get('/:memeid', memescontroller.MemesbyID);

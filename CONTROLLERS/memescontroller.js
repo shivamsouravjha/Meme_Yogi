@@ -51,7 +51,7 @@ const Memesbymemer = async (req, res, next) => {
     );
   }
 
-  res.json({ meme: meme.toObject({ getters: true }) });
+  res.json({ meme: mererswithmeme.toObject({ getters: true }) });
 };
 const Getallmemes = async (req, res, next) => {
   let meme;
@@ -75,7 +75,7 @@ const createMEME = async (req, res, next) => {
     );
   }
 
-  const { caption, tags, memer } = req.body;
+  const { caption, tags,memer} = req.body;
 
   
   const NewMEME = new MemesSchema({
@@ -85,31 +85,32 @@ const createMEME = async (req, res, next) => {
     memer
   });
 
-  ///let memerexisting;
- /// try {
-  ///  memer = await MemerSchema.findById(memerexisting);
-  ///}// catch (err) {
-   // ///const error = new Erur(
-   ///   'Cannot Upload Meme ,TTYL',
-   ///   500
-   //// );
-  /////  return next(error);
-  //}
+  let memerexisting;
+  try {
+    memerexisting = await MemerSchema.findById(memer);
+  }
+   catch (err) {
+   const error = new Erur(
+      'Cannot Upload Meme ,TTYL',
+      500
+    );
+    return next(error);
+  }
 
-  ///if (!memerexisting) {
-   /// const error = new Erur('Register Yourself First Please', 404);
-  ///  return next(error);
-//  }
+  if (!memerexisting) {
+   const error = new Erur('Register Yourself First Please', 404);
+    return next(error);
+ }
 
- // console.log(memerexisting);
+ console.log(memerexisting);
 
   try {
-   /// const sess = await mongoose.startSession();
-///    sess.startTransaction();
-    await NewMEME.save();///{ session: sess }); 
-   /// memerexisting.MemesDB.push(NewMEME); 
-   /// await memerexisting.save({ session: sess }); 
-   /// await sess.commitTransaction();
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await NewMEME.save({ session: sess }); 
+    memerexisting.meme.push(NewMEME); 
+    await memerexisting.save({ session: sess }); 
+    await sess.commitTransaction();
   } catch (err) {
     const error = new Erur(
       'Creating Meme failed, please try again.',
@@ -199,7 +200,7 @@ const MEMEBEGONE = async (req, res, next) => {
   res.status(200).json({ message: 'Deleted meme.' });
 };
 
-exports.Memesbymemer = Memesbymemer;
+exports.Memesbymemer = Memesbymemer;/////checked
 exports.MemesbyID = MemesbyID;///checked
 exports.createMEME = createMEME;///checked
 exports.ChangeMeme = ChangeMeme; ///checked
