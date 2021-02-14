@@ -5,7 +5,7 @@ const { fileUpload } = require('../middleware/file-upload');
 const memercontroller = require('../controllers/memercontroller');
 
 const router = express.Router();
-
+router.get('/',memercontroller.Getmemer);
 router.post(
   '/signup',
 //  fileUpload.single('Profile_Pic'),
@@ -40,7 +40,7 @@ router.patch(
     ],
     memercontroller.ChangeMemer
 );
-router.delete('/:memeid', memercontroller.MEMERBEGONE);
+router.delete('/:memerid', memercontroller.MEMERBEGONE);
 
 module.exports = router;
 

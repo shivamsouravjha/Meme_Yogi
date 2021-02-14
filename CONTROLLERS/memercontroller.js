@@ -187,10 +187,10 @@ const ChangeMemer = async (req, res, next) => {
   };
   const MEMERBEGONE = async (req, res, next) => {
     const memerID = req.params.memerid;
-  
+    console.log(memerID);
     let memertogo;
     try {
-        memertogo = await MemerSchema.findById(memerID).populate('Memer');
+        memertogo = await MemerSchema.findById(memerID).populate('memers');
     } catch (err) {
       const error = new Erur(
         'Something went wrong, could not delete place.',
@@ -200,20 +200,20 @@ const ChangeMemer = async (req, res, next) => {
     }
   
     if (!memertogo) {
-      const error = new Erur('Could not find place for this id.', 404);
+      const error = new Erur('Could not find memer for this id.', 404);
       return next(error);
     }
   //  const imagePath = memertogo.Profile_Pic;
     try {
-      const sess = await mongoose.startSession();
-      sess.startTransaction();
-      await memertogo.remove({session: sess});
-      memertogo.Memer.MemesDB.pull(place);
-      await memertogo.Memer.save({session: sess});
-      await sess.commitTransaction();
+    ///  const sess = await mongoose.startSession();
+    ///  sess.startTransaction();
+      await memertogo.remove();///{session: sess});
+     /// memertogo.Memer.MemesDB.pull(place);
+    //  await memertogo.Memer.save({session: sess});
+    ///  await sess.commitTransaction();
     } catch (err) {
       const error = new Erur(
-        'Something went wrong, could not delete place.',
+        'Something went wrong, could not delete memer.',
         500
       );
       return next(error);
@@ -221,7 +221,7 @@ const ChangeMemer = async (req, res, next) => {
    // fs.unlink(imagePath,err=>{
    //   console.log(err);
  //   })
-    res.status(200).json({ message: 'Deleted place.' });
+    res.status(200).json({ message: 'Deleted memer.' });
   };
   
 
