@@ -8,8 +8,8 @@ const memerschema = new schema({
     password: {type :String,required:true,minlength:8 },
     profile_Pic: {type :String,required:true },
     about:{type :String,require:true },
-    meme: [{type :mongoose.Types.ObjectId,required:true,ref:'Memes'}],
+    meme_ID: [{type :mongoose.Types.ObjectId,required:true,ref:'Memes'}]
 });
 
 memerschema.plugin(uniqueValidator);
-module.exports =mongoose.model('Memer',memerschema);
+module.exports = mongoose.model('Memer',memerschema);

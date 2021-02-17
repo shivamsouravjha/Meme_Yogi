@@ -64,7 +64,7 @@ const signup = async (req, res, next) => {
     profile_Pic: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/400px-Empire_State_Building_%28aerial_view%29.jpg', /// req.file.path,
     password,
     about,
-    meme: []
+    meme_ID: []
   });
 
   try {
@@ -187,7 +187,7 @@ const ChangeMemer = async (req, res, next) => {
   };
   const MEMERBEGONE = async (req, res, next) => {
     const memerID = req.params.memerid;
-    console.log(memerID);
+    //console.log(memerID);
     let memertogo;
     try {
         memertogo = await MemerSchema.findById(memerID).populate('memers');
@@ -198,18 +198,20 @@ const ChangeMemer = async (req, res, next) => {
       );
       return next(error);
     }
-  
+    console.log(memertogo.meme_ID.length);
+
     if (!memertogo) {
       const error = new Erur('Could not find memer for this id.', 404);
       return next(error);
     }
-    const imagePath = memertogo.Profile_Pic;
+    ///const imagePath = memertogo.Profile_Pic;
     try {
       const sess = await mongoose.startSession();
       sess.startTransaction();
+        ` `
       await memertogo.remove({session: sess});
-      memertogo.Memer.MemesDB.pull(place);
-      await memertogo.Memer.save({session: sess});
+     // memertogo.meme_ID.memer.pull(memertogo);
+    //  await memertogo.meme_ID.save({session: sess});
       await sess.commitTransaction();
     } catch (err) {
       const error = new Erur(
