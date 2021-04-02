@@ -2,7 +2,14 @@
 
 
 <h1 align = center>Memeयोगी</h1>
-
+<p> What this Project is about? <p>
+ 
+<p> This is the backend of a social media platform to share memes <p>
+  
+  Feature we offer:-
+  - Share and Upload meme.
+  - Follow your friends and connect with them.
+  - Have fun around with us!
 <p align="center">
 <img src="https://raw.githubusercontent.com/BitByte-TPC/Meme-Yogi/master/app/src/main/ic_launcher-playstore.png">
 </p>
