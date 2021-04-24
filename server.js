@@ -5,7 +5,12 @@ const mongoose = require('mongoose');
 const memer = require('./ROUTERS/memer');
 const memes = require('./ROUTERS/memes');
 const Erur = require('./MODELS/error');
-
+var clouud= require('cloudinary').v2
+clouud.config({
+  cloud_name:'shivamsouravjha',
+  api_key:947186273157443,
+  api_secret:'UaL81mACgEmZcSb6yMthDQZWMxg'
+})
 const app = express();
 
 app.use(bodyParser.json());
