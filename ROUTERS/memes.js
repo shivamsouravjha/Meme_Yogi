@@ -10,7 +10,7 @@ router.get('/', memescontroller.Getallmemes);
 
 router.post(
     '/',
- ///////////   fileUpload.single('meme'),
+    fileUpload.single('meme'),
   [
     check('caption').isLength({ min: 5 }),
     check('tags')

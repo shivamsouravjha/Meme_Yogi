@@ -27,7 +27,7 @@ app.use((error, req, res, next) => {
 });
 mongoose
   .connect(
-    `mongodb+srv://shivam:123456shivam@cluster0.dm1xw.mongodb.net/meme_yogi?retryWrites=true&w=majority`,{ useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex: true }
+    `mongodb+srv://shivam:shivam123@cluster0.dm1xw.mongodb.net/meme_yogi?retryWrites=true&w=majority`,{ useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex: true }
   )
   .then(() => {
     app.listen(process.env.PORT || 5000);

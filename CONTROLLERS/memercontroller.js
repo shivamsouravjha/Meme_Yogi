@@ -36,7 +36,7 @@ const signup = async (req, res, next) => {
     usernametaken = await MemerSchema.findOne({username:username});
 
   } catch (err) {
-     error = new Erur(
+    error = new Erur(
       'Signing up failed, please try again later.',
      500
     );

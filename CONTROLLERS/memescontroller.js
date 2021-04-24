@@ -36,7 +36,7 @@ const Memesbymemer = async (req, res, next) => {
 
   let mererswithmeme;
   try {
-    mererswithmeme = await MemerSchema.findById(memerID).populate('memers');
+    mererswithmeme = await MemerSchema.findById(memerID);///////////////removed populate
   } catch (err) {
     const error = new Erur(
       'Fetching places failed, please try again later.',
