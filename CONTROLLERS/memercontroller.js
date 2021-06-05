@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 const Erur = require('../models/error');
 const MemerSchema = require('../models/memer-schema');
+const cors = require('cors')
 
 const Getmemer = async (req, res, next) => {
   let memer;
@@ -17,7 +18,22 @@ const Getmemer = async (req, res, next) => {
   }
   res.json({ memer: memer.map(user => user.toObject({ getters: true })) });
 };
-
+const CheckUsername = async (req, res, next) => {
+  const { username } = req.body;
+  console.log('username')
+  let usernametaken;
+  try {
+    usernametaken = await MemerSchema.findOne({username:username});
+  } catch (err) {
+    const error = new Erur(
+      'Fetching users failed, please try again later.',
+      500
+    );
+    return next(error);
+  }
+  console.log(username)
+  res.json({ memer: username.toObject({ getters: true }) });
+};
 
 
 const signup = async (req, res, next) => {
@@ -27,14 +43,19 @@ const signup = async (req, res, next) => {
       new Erur('Invalid inputs passed, please check your data.', 422)
     );
   }
-  const { memername,username,email,password,about } = req.body;
+  const { name,username,type,password,about,contact } = req.body;
   console.log(req.body);
-  let memerexisted;
+  let memer_email_existed;
+  let memer_number_existed;
   let usernametaken;
   try {
-    memerexisted = await MemerSchema.findOne({ email: email });
-    usernametaken = await MemerSchema.findOne({username:username});
-
+    if(type=='email'){
+    memer_email_existed = await MemerSchema.findOne({ contact: contact });
+    }else if(type=='phone'){
+      memer_number_existed = await MemerSchema.findOne({contact:contact});
+      }else{
+        usernametaken = await MemerSchema.findOne({username:username});
+        }
   } catch (err) {
     error = new Erur(
       'Signing up failed, please try again later.',
@@ -42,28 +63,35 @@ const signup = async (req, res, next) => {
     );
     return next(error);
   }
-  if (memerexisted) {
+  if (memer_email_existed) {
     const error = new Erur(
-      'User exists already, please login instead.',
+      'User email exists already, please login instead.',
+      422
+    );
+    return next(error);
+  } if (memer_number_existed) {
+    const error = new Erur(
+      'User number exists already, please login instead.',
       422
     );
     return next(error);
   }
     if (usernametaken) {
     const error = new Erur(
-      'User exists already, please login instead.',
+      'Username already taken, please login instead.',
       422
     );
     return next(error);
   }
 
   const Newmemer = new MemerSchema({
-    memername,
+    name,
     username,
-    email,
+    type,
     profile_Pic: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/400px-Empire_State_Building_%28aerial_view%29.jpg', /// req.file.path,
     password,
     about,
+    contact,
     meme_ID: []
   });
 
@@ -81,7 +109,7 @@ const signup = async (req, res, next) => {
 };
 
 const login = async (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, password} = req.body;
 
   let memerexisted;
 
@@ -100,12 +128,14 @@ const login = async (req, res, next) => {
       'Invalid credentials, could not log you in.',
       401
     );
+    error['success']= false
+    console.log(error)
     return next(error);
   }
 
   res.json({
     message: 'Logged in!',
-    memer: memerexisted.toObject({ getters: true })
+    success: true
   });
 };
 const ChangeMemer = async (req, res, next) => {
@@ -232,3 +262,4 @@ exports.signup = signup;
 exports.login = login;
 exports.ChangeMemer = ChangeMemer;
 exports.MEMERBEGONE = MEMERBEGONE;
+exports.CheckUsername =CheckUsername;

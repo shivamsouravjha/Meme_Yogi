@@ -5,8 +5,11 @@ const dotenv = require("dotenv")
 const memer = require('./ROUTERS/memer');
 const memes = require('./ROUTERS/memes');
 const Erur = require('./MODELS/error');
-const app = express();
+const cors = require('cors')
 
+const app = express();
+app.use(cors());
+console.log()
 app.use(bodyParser.json());
 
 app.use('/api/memers', memer); // => /api/places...
@@ -22,18 +25,17 @@ app.use((error, req, res, next) => {
     return next(error);
   }
   res.status(error.code || 500)
-  res.json({message: error.message || 'An unknown error occurred!'});
+  res.json({message: error.message || 'An unknown error occurred!', success: error.success||false});
 });
-//console.log(process.env.name)
-//console.log(process.env.password)
-//console.log(process.env.db)
+
 mongoose
   .connect(
-    `mongodb://${process.env.name}:${process.env.password}@cluster0.dm1xw.mongodb.net/${process.env.db}?retryWrites=true&w=majority`,
+    `mongodb://${process.env.name}:${process.env.password}@cluster0-shard-00-00.dm1xw.mongodb.net:27017,cluster0-shard-00-01.dm1xw.mongodb.net:27017,cluster0-shard-00-02.dm1xw.mongodb.net:27017/${process.env.db}?ssl=true&replicaSet=atlas-x6eag6-shard-0&authSource=admin&retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex: true }
+    
   )
   .then(() => {
-    app.listen(process.env.PORT || 5000);
+    app.listen(5000);
   })
   .catch(err => {
     console.log(err);

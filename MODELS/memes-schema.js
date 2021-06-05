@@ -5,5 +5,7 @@ const memesSchema = new schema({
     tags: {type :String,required:true },
     memepic: {type :String,required:true },
     memer_ID: {type :mongoose.Types.ObjectId,required:true,ref:'Memer' },
-});
+},{
+    versionKey: false 
+  });
 module.exports =mongoose.model('Memes',memesSchema);
