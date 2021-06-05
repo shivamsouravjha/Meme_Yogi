@@ -2,9 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require("dotenv")
-const memer = require('./ROUTERS/memer');
-const memes = require('./ROUTERS/memes');
-const Erur = require('./models/Error');
+const memer = require('./routers/memer');
+const memes = require('./routers/memes');
+const Erur = require('./models/error');
 const cors = require('cors')
 
 const app = express();
