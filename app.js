@@ -1,19 +1,18 @@
-var path = require("path");
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require("dotenv")
 const Erur = require('./models/error');
-const Memer = require('./ROUTERS/Memer');
-const Memes = require('./ROUTERS/Memes');
-const cors = require('cors')
+const memer = require('./ROUTERS/memer');
+const memes = require('./ROUTERS/memes');
 
 const app = express();
-app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/api/memers', Memer); // => /api/places...
-app.use('/api/memes', Memes);
+app.use('/api/memers', memer); 
+app.use('/api/memes', memes);
 
 app.use((req, res, next) => {
   const error = new Erur('Could not find this route.', 404);
