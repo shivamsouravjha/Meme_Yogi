@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const dotenv = require("dotenv")
 const memer = require('./ROUTERS/memer');
 const memes = require('./ROUTERS/memes');
-const Erur = require('./MODELS/error');
+const Erur = require('./models/error');
 const cors = require('cors')
 
 const app = express();
