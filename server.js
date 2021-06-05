@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+const dotenv = require("dotenv")
 const memer = require('./ROUTERS/memer');
 const memes = require('./ROUTERS/memes');
 const Erur = require('./MODELS/error');
@@ -24,9 +24,13 @@ app.use((error, req, res, next) => {
   res.status(error.code || 500)
   res.json({message: error.message || 'An unknown error occurred!'});
 });
+//console.log(process.env.name)
+//console.log(process.env.password)
+//console.log(process.env.db)
 mongoose
   .connect(
-    `mongodb+srv://shivam:shivam123@cluster0.dm1xw.mongodb.net/meme_yogi?retryWrites=true&w=majority`,{ useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex: true }
+    `mongodb://${process.env.name}:${process.env.password}@cluster0.dm1xw.mongodb.net/${process.env.db}?retryWrites=true&w=majority`,
+    { useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex: true }
   )
   .then(() => {
     app.listen(process.env.PORT || 5000);
