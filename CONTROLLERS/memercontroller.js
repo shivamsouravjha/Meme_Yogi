@@ -1,8 +1,8 @@
 const fs=require('fs');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
-const ERROR = require('../models/Error');
 const MemerSchema = require('../models/memer-schema');
+const ERROR = require('../models/Error');
 const cors = require('cors')
 
 const Getmemer = async (req, res, next) => {
