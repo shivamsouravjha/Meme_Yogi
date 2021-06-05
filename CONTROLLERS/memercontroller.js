@@ -129,7 +129,6 @@ const login = async (req, res, next) => {
       401
     );
     error['success']= false
-    console.log(error)
     return next(error);
   }
 
