@@ -1,7 +1,7 @@
 const fs=require('fs');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
-const Erur = require('../models/error');
+const Erur = require('../models/Error');
 const MemerSchema = require('../models/memer-schema');
 const MemesSchema = require('../models/memes-schema');
 var clouud= require('cloudinary').v2
