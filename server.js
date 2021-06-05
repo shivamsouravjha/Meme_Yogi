@@ -3,8 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require("dotenv")
-const Memer = require('./routers/memer');
-const Memes = require('./routers/memes');
+const Memer = require('./ROUTERS/Memer');
+const Memes = require('./ROUTERS/Memes');
 const Erur = require('./models/error');
 const cors = require('cors')
 
