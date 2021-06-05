@@ -2,7 +2,7 @@
   "name": "meme_yogi",
   "version": "1.0.0",
   "description": "Memers United",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
