@@ -3,9 +3,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require("dotenv")
-const Erur = require('models\error.js');
-const Memer = require('./ROUTERS/Memer');
-const Memes = require('./ROUTERS/Memes');
+const Erur = require(`./models/error`);
+const Memer = require(`./ROUTERS/Memer`);
+const Memes = require(`./ROUTERS/Memes`);
 const cors = require('cors')
 
 const app = express();
