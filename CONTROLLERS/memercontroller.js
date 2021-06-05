@@ -1,7 +1,7 @@
 const fs=require('fs');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
-const Erur = require('../models/Error');
+const ERROR = require('../models/Error');
 const MemerSchema = require('../models/memer-schema');
 const cors = require('cors')
 
@@ -10,7 +10,7 @@ const Getmemer = async (req, res, next) => {
   try {
     memer = await MemerSchema.find({}, '-password');
   } catch (err) {
-    const error = new Erur(
+    const error = new ERROR(
       'Fetching users failed, please try again later.',
       500
     );
@@ -25,7 +25,7 @@ const CheckUsername = async (req, res, next) => {
   try {
     usernametaken = await MemerSchema.findOne({username:username});
   } catch (err) {
-    const error = new Erur(
+    const error = new ERROR(
       'Fetching users failed, please try again later.',
       500
     );
@@ -40,7 +40,7 @@ const signup = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new Erur('Invalid inputs passed, please check your data.', 422)
+      new ERROR('Invalid inputs passed, please check your data.', 422)
     );
   }
   const { name,username,type,password,about,contact } = req.body;
@@ -57,27 +57,27 @@ const signup = async (req, res, next) => {
         usernametaken = await MemerSchema.findOne({username:username});
         }
   } catch (err) {
-    error = new Erur(
+    error = new ERROR(
       'Signing up failed, please try again later.',
      500
     );
     return next(error);
   }
   if (memer_email_existed) {
-    const error = new Erur(
+    const error = new ERROR(
       'User email exists already, please login instead.',
       422
     );
     return next(error);
   } if (memer_number_existed) {
-    const error = new Erur(
+    const error = new ERROR(
       'User number exists already, please login instead.',
       422
     );
     return next(error);
   }
     if (usernametaken) {
-    const error = new Erur(
+    const error = new ERROR(
       'Username already taken, please login instead.',
       422
     );
@@ -98,7 +98,7 @@ const signup = async (req, res, next) => {
   try {
     await Newmemer.save();
   } catch (err) {
-    const error = new Erur(
+    const error = new ERROR(
       'Signing up failed, please try again later.',
       500
     );
@@ -116,7 +116,7 @@ const login = async (req, res, next) => {
   try {
     memerexisted = await MemerSchema.findOne({ username: username });
   } catch (err) {
-    const error = new Erur(
+    const error = new ERROR(
       'Loggin in failed, please try again later.',
       500
     );
@@ -124,7 +124,7 @@ const login = async (req, res, next) => {
   }
 
   if (!memerexisted || memerexisted.password !== password) {
-    const error = new Erur(
+    const error = new ERROR(
       'Invalid credentials, could not log you in.',
       401
     );
@@ -141,7 +141,7 @@ const ChangeMemer = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return next(
-        new Erur('Invalid inputs passed, please check your data.', 422)
+        new ERROR('Invalid inputs passed, please check your data.', 422)
       );
     }
   
@@ -152,7 +152,7 @@ const ChangeMemer = async (req, res, next) => {
     try {
       memerexisted = await MemerSchema.findOne({ email: email });
     } catch (err) {
-      const error = new Erur(
+      const error = new ERROR(
         'Signing up failed, please try again later.',
         500
       );
@@ -161,7 +161,7 @@ const ChangeMemer = async (req, res, next) => {
       try {
           usernametaken = await MemerSchema.findOne({username :username});
     } catch (err) {
-      const error = new Erur(
+      const error = new ERROR(
         'Signing up failed, please try again later.',
         500
       );
@@ -169,14 +169,14 @@ const ChangeMemer = async (req, res, next) => {
     }
   
     if (memerexisted) {
-      const error = new Erur(
+      const error = new ERROR(
         'User exists already, please login instead.',
         422
       );
       return next(error);
     }
       if (usernametaken) {
-      const error = new Erur(
+      const error = new ERROR(
         'User exists already, please login instead.',
         422
       );
@@ -189,7 +189,7 @@ const ChangeMemer = async (req, res, next) => {
     try {
       memerexisting = await MemerSchema.findById(memerID);
     } catch (err) {
-      const error = new Erur(
+      const error = new ERROR(
         'Sorry Cannot format the POST',
         500
       );
@@ -205,7 +205,7 @@ const ChangeMemer = async (req, res, next) => {
     try {
       await memerexisting.save();
     } catch (err) {
-      const error = new Erur(
+      const error = new ERROR(
         'Something went wrong, could not update place.',
         500
       );
@@ -221,7 +221,7 @@ const ChangeMemer = async (req, res, next) => {
     try {
         memertogo = await MemerSchema.findById(memerID).populate('memers');
     } catch (err) {
-      const error = new Erur(
+      const error = new ERROR(
         'Something went wrong, could not delete place.',
         500
       );
@@ -230,7 +230,7 @@ const ChangeMemer = async (req, res, next) => {
     console.log(memertogo.meme_ID.length);
 
     if (!memertogo) {
-      const error = new Erur('Could not find memer for this id.', 404);
+      const error = new ERROR('Could not find memer for this id.', 404);
       return next(error);
     }
     ///const imagePath = memertogo.Profile_Pic;
@@ -243,7 +243,7 @@ const ChangeMemer = async (req, res, next) => {
     //  await memertogo.meme_ID.save({session: sess});
       await sess.commitTransaction();
     } catch (err) {
-      const error = new Erur(
+      const error = new ERROR(
         'Something went wrong, could not delete memer.',
         500
       );
