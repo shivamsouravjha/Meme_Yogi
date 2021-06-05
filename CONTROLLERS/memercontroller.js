@@ -19,23 +19,6 @@ const Getmemer = async (req, res, next) => {
   }
   res.json({ memer: memer.map(user => user.toObject({ getters: true })) });
 };
-const CheckUsername = async (req, res, next) => {
-  const { username } = req.body;
-  console.log('username')
-  let usernametaken;
-  try {
-    usernametaken = await MemerSchema.findOne({username:username});
-  } catch (err) {
-    const error = new ERROR(
-      'Fetching users failed, please try again later.',
-      500
-    );
-    return next(error);
-  }
-  console.log(username)
-  res.json({ memer: username.toObject({ getters: true }) });
-};
-
 
 const signup = async (req, res, next) => {
   const errors = validationResult(req);
@@ -262,4 +245,3 @@ exports.signup = signup;
 exports.login = login;
 exports.ChangeMemer = ChangeMemer;
 exports.MEMERBEGONE = MEMERBEGONE;
-exports.CheckUsername =CheckUsername;

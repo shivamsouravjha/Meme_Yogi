@@ -4,8 +4,10 @@ const express = require('express');
 const { check } = require('express-validator');
 const { fileUpload } = require('../middleware/file-upload');
 const memercontroller = require('../CONTROLLERS/memercontroller');
+const verifier = require('../CONTROLLERS/verifier');
 const router = express.Router();
-router.get('/username',memercontroller.CheckUsername);
+router.get('/username',verifier.CheckUsername);
+router.get('/contact',verifier.Checkcontact);
 router.get('/getall',memercontroller.Getmemer);
 
 router.post(

@@ -10,7 +10,6 @@ const cors = require('cors')
 
 const app = express();
 app.use(cors());
-console.log()
 app.use(bodyParser.json());
 
 app.use('/api/memers', Memer); // => /api/places...
