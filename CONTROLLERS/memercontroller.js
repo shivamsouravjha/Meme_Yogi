@@ -85,7 +85,9 @@ const signup = async (req, res, next) => {
     password: hashedpassword,
     about,
     contact,
-    meme_ID: []
+    meme_ID: [],
+    saved_posts: [],
+    following: []
   });
   try {
     await Newmemer.save();
