@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+
 const schema=  mongoose.Schema;
+
 const memerschema = new schema({
     name: {type :String,required:true },
     username: {type :String,required:true,unique:true },
