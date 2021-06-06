@@ -2,10 +2,10 @@ const fs=require('fs');
 var path = require('path');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
+const bycrypt = require('bycryptjs');
+
 const MemerSchema = require('../models/memer-schema');
 const ERROR = require('../models/error');
-const cors = require('cors')
-
 const Getmemer = async (req, res, next) => {
   let memer;
   try {
@@ -67,13 +67,22 @@ const signup = async (req, res, next) => {
     );
     return next(error);
   }
-
+  let hasedpassword;
+  try{
+    hasedpassword = await bycrypt.hash(password,13);
+ }catch{
+  const error = new ERROR(
+    'Signing up failed at has password, please try again later.',
+    500
+  );
+  return next(error);
+  }
   const Newmemer = new MemerSchema({
     name,
     username,
     type,
     profile_Pic: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/400px-Empire_State_Building_%28aerial_view%29.jpg', /// req.file.path,
-    password,
+    hasedpassword,
     about,
     contact,
     meme_ID: []
