@@ -3,6 +3,8 @@ var path = require('path');
 const express = require('express');
 const { check } = require('express-validator');
 const router = express.Router();
+const checkAuth = require('../middleware/check-auth');
+
 const memescontroller = require('../CONTROLLERS/memescontroller');
 const { fileUpload } = require('../middleware/file-upload');
 router.use(checkAuth)
