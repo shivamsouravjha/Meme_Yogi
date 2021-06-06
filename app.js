@@ -1,9 +1,11 @@
 const fs = require('fs');
 const path = require('path');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const dotenv = require("dotenv")
+const dotenv = require("dotenv");
+
 const Erur = require('./models/error');
 const memer = require('./ROUTERS/memer');
 const memes = require('./ROUTERS/memes');
