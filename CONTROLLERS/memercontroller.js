@@ -2,7 +2,7 @@ const fs=require('fs');
 var path = require('path');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
-const bycrypt = require('bycryptjs');
+const bcrypt = require('bcryptjs');
 
 const MemerSchema = require('../models/memer-schema');
 const ERROR = require('../models/error');
@@ -28,7 +28,7 @@ const signup = async (req, res, next) => {
     );
   }
   const { name,username,type,password,about,contact } = req.body;
-  console.log(req.body);
+  
   let memer_email_existed;
   let memer_number_existed;
   let usernametaken;
@@ -67,27 +67,27 @@ const signup = async (req, res, next) => {
     );
     return next(error);
   }
-  let hasedpassword;
+  let hashedpassword;
   try{
-    hasedpassword = await bycrypt.hash(password,13);
+    hashedpassword = await bcrypt.hash(password,12)
  }catch{
-  const error = new ERROR(
-    'Signing up failed at has password, please try again later.',
-    500
-  );
-  return next(error);
+    const error = new ERROR(
+      'Signing up failed at has password, please try again later.',
+      500
+    );
+    return next(error);
   }
   const Newmemer = new MemerSchema({
     name,
     username,
     type,
     profile_Pic: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/400px-Empire_State_Building_%28aerial_view%29.jpg', /// req.file.path,
-    hasedpassword,
+    password: hashedpassword,
     about,
     contact,
     meme_ID: []
   });
-
+  console.log(Newmemer);
   try {
     await Newmemer.save();
   } catch (err) {
@@ -111,12 +111,21 @@ const login = async (req, res, next) => {
   } catch (err) {
     const error = new ERROR(
       'Loggin in failed, please try again later.',
+      401
+    );
+    return next(error);
+  }
+  isvalidpassword= false;
+  try{
+    isvalidpassword = await bcrypt.compare(password,memerexisted.password);
+  }catch(err){
+    const error = new ERROR(
+      'Loggin in failed, please try again later.',
       500
     );
     return next(error);
   }
-
-  if (!memerexisted || memerexisted.password !== password) {
+  if (!isvalidpassword) {
     const error = new ERROR(
       'Invalid credentials, could not log you in.',
       401
