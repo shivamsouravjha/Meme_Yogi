@@ -1,15 +1,16 @@
 var path = require('path');
-
 const express = require('express');
 const { check } = require('express-validator');
 const { fileUpload } = require('../middleware/file-upload');
 const memercontroller = require('../CONTROLLERS/memercontroller');
 const verifier = require('../CONTROLLERS/verifier');
+const checkAuth = require('../middleware/check-auth');
+
 const router = express.Router();
+router.use(checkAuth)
 router.get('/username',verifier.CheckUsername);
 router.get('/contact',verifier.Checkcontact);
 router.get('/getall',memercontroller.Getmemer);
-
 router.post(
   '/signup',
 //  fileUpload.single('Profile_Pic'),
