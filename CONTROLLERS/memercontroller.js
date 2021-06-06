@@ -3,7 +3,7 @@ var path = require('path');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-
+const jwt = require('jsonwebtoken')
 const MemerSchema = require('../models/memer-schema');
 const ERROR = require('../models/error');
 const Getmemer = async (req, res, next) => {
@@ -87,7 +87,6 @@ const signup = async (req, res, next) => {
     contact,
     meme_ID: []
   });
-  console.log(Newmemer);
   try {
     await Newmemer.save();
   } catch (err) {
@@ -97,8 +96,17 @@ const signup = async (req, res, next) => {
     );
     return next(error);
   }
-
-  res.status(201).json({ memer: Newmemer.toObject({ getters: true }) });
+  let token;
+  try{
+    token = jwt.sign({userid:Newmemer.id,email:Newmemer.email},process.env.secretcode,{expiresIn:'7d'});
+  }catch(err){
+    const error = new ERROR(
+      'Signing up failed, please try again later.',
+      500
+    );
+    return next(error);
+  }
+  res.status(201).json({userid:Newmemer.id,email:Newmemer.email,token:token});
 };
 
 const login = async (req, res, next) => {
@@ -133,10 +141,19 @@ const login = async (req, res, next) => {
     error['success']= false
     return next(error);
   }
-
+  let token;
+  try{
+    token = jwt.sign({userid:memerexisted.id,email:memerexisted.email},process.env.secretcode,{expiresIn:'7d'});
+  }catch(err){
+    const error = new ERROR(
+      'loggin  in  failed, please try again later.',
+      500
+    );
+    return next(error);
+  }
+  res.status(201).json({message: 'Logged in!',success: true,userid:memerexisted.id,email:memerexisted.email,token:token});
   res.json({
-    message: 'Logged in!',
-    success: true
+    
   });
 };
 const ChangeMemer = async (req, res, next) => {
