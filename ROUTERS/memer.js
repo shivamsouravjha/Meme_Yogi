@@ -7,7 +7,6 @@ const verifier = require('../CONTROLLERS/verifier');
 const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
-router.use(checkAuth)
 router.get('/username',verifier.CheckUsername);
 router.get('/contact',verifier.Checkcontact);
 router.get('/getall',memercontroller.Getmemer);
@@ -26,6 +25,8 @@ router.post(
 memercontroller.signup
 )
 router.get('/login',memercontroller.login)
+
+router.use(checkAuth)
 router.patch(
     '/:memerid',  ///fileUpload.single('Profile_Pic'),
     [
