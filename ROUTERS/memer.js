@@ -1,10 +1,10 @@
 var path = require('path');
 const express = require('express');
 const { check } = require('express-validator');
-const { fileUpload } = require('../middleware/file-upload');
+const { fileUpload } = require('../MIDDLEWARE/file-upload');
 const memercontroller = require('../CONTROLLERS/memercontroller');
 const verifier = require('../CONTROLLERS/verifier');
-const checkAuth = require('../middleware/check-auth');
+const checkAuth = require('../MIDDLEWARE/check-auth');
 
 const router = express.Router();
 router.use(checkAuth)

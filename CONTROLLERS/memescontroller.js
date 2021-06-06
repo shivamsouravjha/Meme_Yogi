@@ -3,9 +3,9 @@ var path = require('path');
 
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
-const Erur = require('../models/error');
-const MemerSchema = require('../models/memer-schema');
-const MemesSchema = require('../models/memes-schema');
+const Erur = require('../MODELS/error');
+const MemerSchema = require('../MODELS/memer-schema');
+const MemesSchema = require('../MODELS/memes-schema');
 var clouud= require('cloudinary').v2
 clouud.config({
   cloud_name:'shivamsouravjha',

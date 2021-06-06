@@ -4,8 +4,8 @@ const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
-const MemerSchema = require('../models/memer-schema');
-const ERROR = require('../models/error');
+const MemerSchema = require('../MODELS/memer-schema');
+const ERROR = require('../MODELS/error');
 const Getmemer = async (req, res, next) => {
   let memer;
   try {

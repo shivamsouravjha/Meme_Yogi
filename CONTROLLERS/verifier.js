@@ -2,8 +2,8 @@ const fs=require('fs');
 var path = require('path');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
-const MemerSchema = require('../models/memer-schema');
-const ERROR = require('../models/error');
+const MemerSchema = require('../MODELS/memer-schema');
+const ERROR = require('../MODELS/error');
 const cors = require('cors')
 const CheckUsername = async (req, res, next) => {
     const { username } = req.body;
