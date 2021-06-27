@@ -9,7 +9,6 @@ const dotenv = require("dotenv");
 const Erur = require('./MODELS/error');
 const memer = require('./ROUTERS/memer');
 const memes = require('./ROUTERS/memes');
-
 const app = express();
 app.use(bodyParser.json());
 
