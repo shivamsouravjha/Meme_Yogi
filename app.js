@@ -24,11 +24,11 @@ app.use('/api/memers', memer);
 app.use('/api/memes', memes);
 
 app.use((req, res, next) => {
-  const error = new Error('Could not find this route.', 404);
+  const error = new Error('Could not find this route.', 404);       ///Incase of not having a route
   throw error;
 });
 
-app.use((error, req, res, next) => {
+app.use((error, req, res, next) => {          //special 4 term function that lets know error to cinsuder it as error
   if (res.headerSent) {
     return next(error);
   }
