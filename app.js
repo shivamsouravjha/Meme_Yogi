@@ -1,12 +1,11 @@
-const fs = require('fs');
 const path = require('path');
-
+const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require("dotenv");
 
-const Erur = require('./MODELS/error');
+const Error = require('./MODELS/error');
 const memer = require('./ROUTERS/memer');
 const memes = require('./ROUTERS/memes');
 
@@ -20,14 +19,13 @@ app.use((req, res, next) => {
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
-
   next();
 }); 
 app.use('/api/memers', memer); 
 app.use('/api/memes', memes);
 
 app.use((req, res, next) => {
-  const error = new Erur('Could not find this route.', 404);
+  const error = new Error('Could not find this route.', 404);
   throw error;
 });
 

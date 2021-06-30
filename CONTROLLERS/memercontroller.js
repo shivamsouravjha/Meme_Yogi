@@ -6,6 +6,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const MemerSchema = require('../MODELS/memer-schema');
 const ERROR = require('../MODELS/error');
+
+
+
 const Getmemer = async (req, res, next) => {
   let memer;
   try {
@@ -19,6 +22,11 @@ const Getmemer = async (req, res, next) => {
   }
   res.json({ memer: memer.map(user => user.toObject({ getters: true })) });
 };
+
+
+
+
+
 
 const signup = async (req, res, next) => {
   const errors = validationResult(req);
@@ -77,6 +85,10 @@ const signup = async (req, res, next) => {
     );
     return next(error);
   }
+
+
+
+
   const Newmemer = new MemerSchema({
     name,
     username,
@@ -111,6 +123,10 @@ const signup = async (req, res, next) => {
   res.status(201).json({userid:Newmemer.id,email:Newmemer.email,token:token});
 };
 
+
+
+
+
 const login = async (req, res, next) => {
   const { username, password} = req.body;
 
@@ -125,7 +141,7 @@ const login = async (req, res, next) => {
     );
     return next(error);
   }
-  isvalidpassword= false;
+  let isvalidpassword= false;
   try{
     isvalidpassword = await bcrypt.compare(password,memerexisted.password);
   }catch(err){
@@ -154,10 +170,11 @@ const login = async (req, res, next) => {
     return next(error);
   }
   res.status(201).json({message: 'Logged in!',success: true,userid:memerexisted.id,email:memerexisted.email,token:token});
-  res.json({
-    
-  });
 };
+
+
+
+
 const ChangeMemer = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -235,6 +252,11 @@ const ChangeMemer = async (req, res, next) => {
   
     res.status(200).json({ memer: memerexisting.toObject({ getters: true }) });
   };
+
+
+
+
+
   const MEMERBEGONE = async (req, res, next) => {
     const memerID = req.params.memerid;
     //console.log(memerID);
