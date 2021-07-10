@@ -11,7 +11,7 @@
   - Follow your friends and connect with them.
   - Have fun around with us!
 <p align="center">
-<img src="https://drive.google.com/file/d/1-6BQPa2Ufqc7gskGxkzRkHc46cEHSIx2/view?usp=sharing">
+<img src="https://raw.githubusercontent.com/MemeYogi/Meme_Yogi/main/CONTROLLERS/ic_launcher-playstore.png">
 </p>
 
 <p align="center">
