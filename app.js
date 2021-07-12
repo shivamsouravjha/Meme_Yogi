@@ -3,11 +3,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const dotenv = require("dotenv");
 
 const Error = require('./MODELS/error');
 const memer = require('./ROUTERS/memer');
 const memes = require('./ROUTERS/memes');
+
+require('dotenv').config();
+
 const app = express();
 app.use(bodyParser.json());
 

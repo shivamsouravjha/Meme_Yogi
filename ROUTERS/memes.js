@@ -14,7 +14,7 @@ router.get('/memer/:memerid', memescontroller.Memesbymemer);
 router.get('/', memescontroller.Getallmemes);
 
 router.post(
-    '/',
+    '/:memerid',
     fileUpload.single('meme'),
   [
     check('caption').isLength({ min: 5 }),

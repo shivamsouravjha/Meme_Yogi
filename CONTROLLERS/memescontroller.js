@@ -1,6 +1,7 @@
 const fs=require('fs');
 var path = require('path');
-
+const { promisify } = require('util')
+const unlinkAsync = promisify(fs.unlink)
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 const Erur = require('../MODELS/error');
@@ -8,10 +9,12 @@ const MemerSchema = require('../MODELS/memer-schema');
 const MemesSchema = require('../MODELS/memes-schema');
 var clouud= require('cloudinary').v2;
 const { env } = require('process');
+require('dotenv').config();
+
 clouud.config({
-  cloud_name:env.cloudinary_cloud_name,
-  api_key:env.cloudinary_api_key,
-  api_secret:env.cloudinary_api_secret
+  cloud_name:process.env.cloudinary_cloud_name,
+  api_key:process.env.cloudinary_api_key,
+  api_secret:process.env.cloudinary_api_secret
 })
 
 const MemesbyID = async (req, res, next) => {
@@ -39,10 +42,12 @@ const MemesbyID = async (req, res, next) => {
   res.json({ meme: meme.toObject({ getters: true }) });
 };
 
+
+
 const Memesbymemer = async (req, res, next) => {
   const memerID = req.params.memerid;
 
-  let mererswithmeme;
+  let memerswithmeme;
   try {
     memerswithmeme = await MemerSchema.findById(memerID, '-password -contact -type -saved_posts -_id');///////////////removed populate
   } catch (err) {
@@ -52,7 +57,6 @@ const Memesbymemer = async (req, res, next) => {
     );
     return next(error);
   }
-  console.log(memerswithmeme)
   if (!memerswithmeme ) {
     return next(
       new Erur('Memer is shy to upload memes', 404)
@@ -60,6 +64,8 @@ const Memesbymemer = async (req, res, next) => {
   }
   res.json({ meme: memerswithmeme.toObject({ getters: true }) });
 };
+
+
 
 
 const Getallmemes = async (req, res, next) => {
@@ -76,19 +82,32 @@ const Getallmemes = async (req, res, next) => {
   res.json({ meme: meme.map(meme => meme.toObject({ getters: true })) });
 };
 
+
+
+
 const createMEME = async (req, res, next) => {
+  const memer_ID = req.params.memerid;
   const errors = validationResult(req);
   const fic= req.file;
-  const focc= await clouud.uploader.upload(fic.path);
-  console.log(focc.public_id);
+  let focc;
+  try{
+    focc= await clouud.uploader.upload(fic.path, {
+      folder: `${memer_ID}/posts`,
+      use_filename: true
+     });
+     await unlinkAsync(req.file.path)
+  } catch(error){
+    res.send(error);
+  }
   if (!errors.isEmpty()) {
     return next(
       new Erur('Sorry to bother,its invalid,mind doing it again?', 422)
     );
   }
-  const { caption, tags,memer_ID} = req.body;
 
   
+
+  const { caption, tags} = req.body;
   const NewMEME = new MemesSchema({
     caption,
     tags,
@@ -131,6 +150,9 @@ const createMEME = async (req, res, next) => {
 
   res.status(201).json({ meme: NewMEME });
 };
+
+
+
 
 const ChangeMeme = async (req, res, next) => {
   const errors = validationResult(req);
