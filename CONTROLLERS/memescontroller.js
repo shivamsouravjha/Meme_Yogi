@@ -90,6 +90,7 @@ const createMEME = async (req, res, next) => {
   const errors = validationResult(req);
   const fic= req.file;
   let focc;
+  console.log("Da")
   try{
     focc= await clouud.uploader.upload(fic.path, {
       folder: `${memer_ID}/posts`,
@@ -104,9 +105,6 @@ const createMEME = async (req, res, next) => {
       new Erur('Sorry to bother,its invalid,mind doing it again?', 422)
     );
   }
-
-  
-
   const { caption, tags} = req.body;
   const NewMEME = new MemesSchema({
     caption,
