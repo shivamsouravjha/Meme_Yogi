@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const MemerSchema = require('../MODELS/memer-schema');
 const ERROR = require('../MODELS/error');
 const cors = require('cors')
+
+
 const CheckUsername = async (req, res, next) => {
     const { username } = req.body;
     let usernametaken;
@@ -20,6 +22,9 @@ const CheckUsername = async (req, res, next) => {
     if(!usernametaken)res.json({ found: false});
     res.json({ found: true});
   };
+
+
+
   const Checkcontact = async (req, res, next) => {
     const { contact } = req.body;
     let contactnametaken;

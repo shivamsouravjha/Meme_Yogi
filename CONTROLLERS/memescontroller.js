@@ -43,7 +43,7 @@ const Memesbymemer = async (req, res, next) => {
 
   let mererswithmeme;
   try {
-    mererswithmeme = await MemerSchema.findById(memerID);///////////////removed populate
+    memerswithmeme = await MemerSchema.findById(memerID, '-password -contact -type -saved_posts -_id');///////////////removed populate
   } catch (err) {
     const error = new Erur(
       'Fetching places failed, please try again later.',
@@ -51,15 +51,16 @@ const Memesbymemer = async (req, res, next) => {
     );
     return next(error);
   }
-
-  if (!mererswithmeme ) {
+  console.log(memerswithmeme)
+  if (!memerswithmeme ) {
     return next(
       new Erur('Memer is shy to upload memes', 404)
     );
   }
-
-  res.json({ meme: mererswithmeme.toObject({ getters: true }) });
+  res.json({ meme: memerswithmeme.toObject({ getters: true }) });
 };
+
+
 const Getallmemes = async (req, res, next) => {
   let meme;
   try {
@@ -84,9 +85,6 @@ const createMEME = async (req, res, next) => {
       new Erur('Sorry to bother,its invalid,mind doing it again?', 422)
     );
   }
-  
-
- 
   const { caption, tags,memer_ID} = req.body;
 
   
