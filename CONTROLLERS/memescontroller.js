@@ -6,11 +6,12 @@ const mongoose = require('mongoose');
 const Erur = require('../MODELS/error');
 const MemerSchema = require('../MODELS/memer-schema');
 const MemesSchema = require('../MODELS/memes-schema');
-var clouud= require('cloudinary').v2
+var clouud= require('cloudinary').v2;
+const { env } = require('process');
 clouud.config({
-  cloud_name:'shivamsouravjha',
-  api_key:947186273157443,
-  api_secret:'UaL81mACgEmZcSb6yMthDQZWMxg'
+  cloud_name:env.cloudinary_cloud_name,
+  api_key:env.cloudinary_api_key,
+  api_secret:env.cloudinary_api_secret
 })
 
 const MemesbyID = async (req, res, next) => {
