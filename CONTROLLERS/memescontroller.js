@@ -217,6 +217,8 @@ const MEMEBEGONE = async (req, res, next) => {
     memetogo.memer_ID.meme_ID.pull(memeID); 
     await memetogo.memer_ID.save({session: sess});
     await sess.commitTransaction();
+    await clouud.uploader.destroy(memetogo.memepic);
+
   } catch (err) {
     console.log(err)
     const error = new Erur(
