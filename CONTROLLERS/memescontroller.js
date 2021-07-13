@@ -17,30 +17,30 @@ clouud.config({
   api_secret:process.env.cloudinary_api_secret
 })
 
-const MemesbyID = async (req, res, next) => {
-  const memeid = req.params.memeid;
+// const MemesbyID = async (req, res, next) => {
+//   const memeid = req.params.memeid;
 
-  let meme;
-  try {
-    meme = await MemesSchema.findById(memeid);
-  } catch (err) {
-    const error = new Erur(
-      'Something went wrong, could not find a place.',
-      500
-    );
-    return next(error);
-  }
+//   let meme;
+//   try {
+//     meme = await MemesSchema.findById(memeid);
+//   } catch (err) {
+//     const error = new Erur(
+//       'Something went wrong, could not find a place.',
+//       500
+//     );
+//     return next(error);
+//   }
 
-  if (!meme) {
-    const error = new Erur(
-      'You Get Nothing in Here',
-      404
-    );
-    return next(error);
-  }
+//   if (!meme) {
+//     const error = new Erur(
+//       'You Get Nothing in Here',
+//       404
+//     );
+//     return next(error);
+//   }
 
-  res.json({ meme: meme.toObject({ getters: true }) });
-};
+//   res.json({ meme: meme.toObject({ getters: true }) });
+// };
 
 
 
@@ -68,19 +68,19 @@ const Memesbymemer = async (req, res, next) => {
 
 
 
-const Getallmemes = async (req, res, next) => {
-  let meme;
-  try {
-    meme = await MemerSchema.find({});
-  } catch (err) {
-    const error = new Erur(
-      'Fetching users failed, please try again later.',
-      500
-    );
-    return next(error);
-  }
-  res.json({ meme: meme.map(meme => meme.toObject({ getters: true })) });
-};
+// const Getallmemes = async (req, res, next) => {
+//   let meme;
+//   try {
+//     meme = await MemerSchema.find({});
+//   } catch (err) {
+//     const error = new Erur(
+//       'Fetching users failed, please try again later.',
+//       500
+//     );
+//     return next(error);
+//   }
+//   res.json({ meme: meme.map(meme => meme.toObject({ getters: true })) });
+// };
 
 
 
@@ -90,10 +90,9 @@ const createMEME = async (req, res, next) => {
   const errors = validationResult(req);
   const fic= req.file;
   let focc;
-  console.log("Da")
   try{
     focc= await clouud.uploader.upload(fic.path, {
-      folder: `${memer_ID}/posts`,
+      folder: `memes/${memer_ID}/posts`,
       use_filename: true
      });
      await unlinkAsync(req.file.path)
@@ -146,7 +145,7 @@ const createMEME = async (req, res, next) => {
     return next(error);
   }
 
-  res.status(201).json({ meme: NewMEME });
+  res.status(201).json({ success: 'True' });
 };
 
 
@@ -191,11 +190,14 @@ const ChangeMeme = async (req, res, next) => {
   res.status(200).json({ meme: meme.toObject({ getters: true }) });
 };
 
+
+
 const MEMEBEGONE = async (req, res, next) => {
   const memeID = req.params.memeid;
+  const memerID = req.params.memerid;
   let memetogo;
   try {
-    memetogo = await MemesSchema.findById(memeID).populate('memes');
+    memetogo = await MemesSchema.findById(memeID).populate('memer_ID');
   } catch (err) {
     const error = new Erur(
       'Something went wrong, could not delete meme.',
@@ -203,7 +205,6 @@ const MEMEBEGONE = async (req, res, next) => {
     );
     return next(error);
   }
-
   if (!memetogo) {
     const error = new Erur('Could not find meme for this id.', 404);
     return next(error);
@@ -213,11 +214,11 @@ const MEMEBEGONE = async (req, res, next) => {
     const sess = await mongoose.startSession();
     sess.startTransaction();   
     await memetogo.remove({session: sess});
-    console.log(memetogo.memer_ID)
-    memetogo.memer_ID.meme_ID.pull(memetogo); 
+    memetogo.memer_ID.meme_ID.pull(memeID); 
     await memetogo.memer_ID.save({session: sess});
     await sess.commitTransaction();
   } catch (err) {
+    console.log(err)
     const error = new Erur(
       'Something went wrong, could not delete meme.',
       500
@@ -230,9 +231,11 @@ const MEMEBEGONE = async (req, res, next) => {
   res.status(200).json({ message: 'Deleted meme.' });
 };
 
+
+
 exports.Memesbymemer = Memesbymemer;/////checked
-exports.MemesbyID = MemesbyID;///checked
+// exports.MemesbyID = MemesbyID;///checked
 exports.createMEME = createMEME;///checked
 exports.ChangeMeme = ChangeMeme; ///checked
 exports.MEMEBEGONE = MEMEBEGONE;///checked
-exports.Getallmemes = Getallmemes;///checked
+// exports.Getallmemes = Getallmemes;///checked

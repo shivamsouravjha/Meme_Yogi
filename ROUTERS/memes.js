@@ -9,9 +9,9 @@ const memescontroller = require('../CONTROLLERS/memescontroller');
 const { fileUpload } = require('../middleware/file-upload');
 router.use(checkAuth)
 
-router.get('/:memeid', memescontroller.MemesbyID);
+// router.get('/:memeid', memescontroller.MemesbyID);
 router.get('/memer/:memerid', memescontroller.Memesbymemer);
-router.get('/', memescontroller.Getallmemes);
+// router.get('/', memescontroller.Getallmemes);
 
 router.post(
     '/:memerid',
@@ -34,7 +34,7 @@ router.patch(
     ],
     memescontroller.ChangeMeme
 );
-router.delete('/:memeid', memescontroller.MEMEBEGONE);
+router.delete('/:memerid/:memeid', memescontroller.MEMEBEGONE);
 
 module.exports = router;
 
