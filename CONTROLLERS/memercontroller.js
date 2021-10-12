@@ -6,26 +6,22 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const MemerSchema = require('../MODELS/memer-schema');
 const ERROR = require('../MODELS/error');
-
-
+const { promiseHandler } = require('../utils/promiseHandler')
 
 const Getmemer = async (req, res, next) => {
-  let memer;
-  try {
-    memer = await MemerSchema.find({}, '-password');
-  } catch (err) {
+
+  const [memer, error] = await promiseHandler(MemerSchema.find({}, '-password'))
+  
+  if(error) {
     const error = new ERROR(
       'Fetching users failed, please try again later.',
       500
     );
     return next(error);
   }
+
   res.json({ memer: memer.map(user => user.toObject({ getters: true })) });
 };
-
-
-
-
 
 
 const signup = async (req, res, next) => {
@@ -75,16 +71,16 @@ const signup = async (req, res, next) => {
     );
     return next(error);
   }
-  let hashedpassword;
-  try{
-    hashedpassword = await bcrypt.hash(password,12)
- }catch{
+
+  const [hashedpassword, hashedPasswordError] = await promiseHandler(bcrypt.hash(password,12))
+  if(hashedPasswordError) {
     const error = new ERROR(
       'Signing up failed at has password, please try again later.',
       500
     );
     return next(error);
   }
+
   const Newmemer = new MemerSchema({
     name,
     username,
@@ -97,25 +93,25 @@ const signup = async (req, res, next) => {
     saved_posts: [],
     following: []
   });
-  try {
-    await Newmemer.save();
-  } catch (err) {
+
+  const [_, memerError] = await promiseHandler(Newmemer.save())
+  if(memerError) {
     const error = new ERROR(
       'Signing up failed, please try again later.',
       500
     );
     return next(error);
   }
-  let token;
-  try{
-    token = jwt.sign({userid:Newmemer.id,email:Newmemer.email},process.env.secretcode,{expiresIn:'7d'});
-  }catch(err){
+
+  const [token, error] = await promiseHandler(jwt.sign({userid:Newmemer.id,email:Newmemer.email},process.env.secretcode,{expiresIn:'7d'}))
+  if(error) {
     const error = new ERROR(
       'Signing up failed, please try again later.',
       500
     );
     return next(error);
   }
+
   res.status(201).json({userid:Newmemer.id,email:Newmemer.email,token:token});
 };
 
@@ -126,21 +122,17 @@ const signup = async (req, res, next) => {
 const login = async (req, res, next) => {
   const { username, password} = req.body;
 
-  let memerexisted;
-
-  try {
-    memerexisted = await MemerSchema.findOne({ username: username });
-  } catch (err) {
+  const [memerexisted, memerexistedError] = await promiseHandler(MemerSchema.findOne({ username: username }));
+  if(memerexistedError) {
     const error = new ERROR(
       'Loggin in failed, please try again later.',
       401
     );
     return next(error);
   }
-  let isvalidpassword= false;
-  try{
-    isvalidpassword = await bcrypt.compare(password,memerexisted.password);
-  }catch(err){
+
+  const [isvalidpassword, isvalidpasswordError] = await promiseHandler(bcrypt.compare(password,memerexisted.password));
+  if(isvalidpasswordError) {
     const error = new ERROR(
       'Loggin in failed, please try again later.',
       500
@@ -155,16 +147,16 @@ const login = async (req, res, next) => {
     error['success']= false
     return next(error);
   }
-  let token;
-  try{
-    token = jwt.sign({userid:memerexisted.id,email:memerexisted.email},process.env.secretcode,{expiresIn:'7d'});
-  }catch(err){
+
+  const [token, tokenError] = await promiseHandler(jwt.sign({userid:memerexisted.id,email:memerexisted.email},process.env.secretcode,{expiresIn:'7d'}));
+  if(tokenError) {
     const error = new ERROR(
       'loggin  in  failed, please try again later.',
       500
     );
     return next(error);
   }
+
   res.status(201).json({message: 'Logged in!',success: true,userid:memerexisted.id,email:memerexisted.email,token:token});
 };
 
